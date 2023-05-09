@@ -10,6 +10,4 @@ class Player
   end
 end
 
-player = Player.new
-puts letra = player.enter_letter
-puts player.char_verifier(letra)
+
