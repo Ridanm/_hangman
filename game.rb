@@ -15,10 +15,6 @@ class Game
     @turns = 8
   end
 
-  def word 
-    @word 
-  end
-
   def word_space 
     @word.size 
   end
@@ -28,7 +24,44 @@ class Game
   end
 
   def show_underscores
-    puts underscores.join(' ')
+    underscore = underscores.join(' ')
+    underscore_style = Presentation::style(underscore, 'light_blue')
+    puts underscore_style
+  end
+
+  def title
+    title = Presentation::show_phrase('title')
+    long = title.size 
+    title_style = Presentation::style(title, 'light_green')
+    puts "\n#{title_style.center(long*2)}"
+  end
+
+  def game_info
+    guess = Presentation::show_phrase('guess')
+    save = Presentation::show_phrase('save')
+    save_style = Presentation::style(save, 'light_yellow')
+    puts "\n#{guess}\n#{save}"
+  end
+
+  def winner
+    winner = Presentation::show_phrase('winner')
+    puts winner 
+  end
+
+  def loose 
+    loose = Presentation::show_phrase('loose')
+    puts loose 
+  end
+
+  def thanks
+    thanks = Presentation::show_phrase('thanks')
+    thanks_style = Presentation::style(thanks, 'light_green')
+    puts thanks_style
+  end
+
+  def exit_ 
+    _exit = Presentation::show_phrase('exit')
+    puts _exit 
   end
 
   def play 
@@ -39,6 +72,9 @@ end
 word = SecretWord.new.select_word 
 player = Player.new
 game = Game.new(word, player)
-game.show_underscores
 
-puts game.underscores.class 
+game.title 
+game.game_info 
+game.exit_
+game.show_underscores
+game.thanks
