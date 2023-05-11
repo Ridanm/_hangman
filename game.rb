@@ -10,6 +10,8 @@ class Game
   def initialize(word, player)
     @word = word 
     @player = player 
+    @@copy_underscore = []
+    @loose_letter = []
     @turns = 0
   end
 
@@ -30,7 +32,7 @@ class Game
   end
 
   def underscores
-    underscore = ['_'] * word.size
+    @underscore = ['_'] * word.size
   end
 
   def show_underscores
@@ -54,9 +56,25 @@ class Game
 
   def match_letter!
     puts word 
-    if word.include?(type_letter)
-      puts 'Correct...'
+    letter = type_letter 
+    @copy_underscore = underscores 
+    if word.include?(letter)
+      word.chars.each_with_index do |ch, ind|
+        if ch == letter 
+          @copy_underscore[ind] = ch 
+        end 
+      end
+    else 
+      puts "Nop yet "
+      if @loose_letter.include?(letter)
+        puts @loose_letter
+      else 
+        @loose_letter << letter 
+        puts @loose_letter
+      end
     end
+    copy_ = @copy_underscore.join(' ')
+    puts Presentation::style(copy_, 'light_yellow')
   end
 
   def winner
@@ -78,11 +96,10 @@ class Game
   def play 
     title 
     game_info 
-    show_underscores
+    underscores
     remaining_turns
-    type_letter 
+    show_underscores
     match_letter!
-
   end
 end
 
