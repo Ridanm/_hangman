@@ -1,12 +1,36 @@
-require './verifier_module.rb'
+require './presentation_module.rb'
 
 class Player 
-  include Verifier
   attr_reader :letter 
 
+  def type_char 
+    enter_char = Presentation::show_phrase('enter_char')
+    print enter_char 
+  end
+
   def enter_letter
-    puts 'Enter a char from a to z'
-    letter = gets.chomp 
+    type_char 
+    letter = gets.chomp.downcase 
+    if letter == 'exit'
+      leave_game(letter)
+    elsif letter.between?('a', 'z')
+        letter[0]
+    else 
+      warning_message
+      enter_letter 
+    end 
+  end
+
+  def leave_game(close='')
+    bye = Presentation::show_phrase('thanks')
+    puts Presentation::style(bye, 'light_green')
+    exit if close == 'exit'
+  end
+
+  def warning_message  
+    warning = Presentation::show_phrase('warning')
+    warning_style = Presentation::style(warning, 'light_red')
+    puts "#{warning_style}\n\n"
   end
 end
 
