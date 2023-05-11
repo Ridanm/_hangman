@@ -1,32 +1,16 @@
 require './presentation_module'
-require './verifier_module'
 require './secret_word.rb'
 require './player.rb'
 
 class Game 
   include Presentation
-  include Verifier 
 
   attr_reader :word 
 
   def initialize(word, player)
     @word = word 
     @player = player 
-    @turns = 8
-  end
-
-  def word_space 
-    @word.size 
-  end
-
-  def underscores
-    underscore = ['_'] * word_space 
-  end
-
-  def show_underscores
-    underscore = underscores.join(' ')
-    underscore_style = Presentation::style(underscore, 'light_blue')
-    puts underscore_style
+    @turns = 0
   end
 
   def title
@@ -38,9 +22,34 @@ class Game
 
   def game_info
     guess = Presentation::show_phrase('guess')
+    only_first = Presentation::show_phrase('only_first')
     save = Presentation::show_phrase('save')
-    save_style = Presentation::style(save, 'light_yellow')
-    puts "\n#{guess}\n#{save}"
+    _exit = Presentation::show_phrase('exit')
+    turn = Presentation::show_phrase('turns')
+    puts "\n#{guess}\n#{only_first}\n#{save}\n#{_exit}\n#{turn}#{shift_left}"
+  end
+
+  def underscores
+    underscore = ['_'] * word.size
+  end
+
+  def show_underscores
+    underscore = underscores.join(' ')
+    underscore_style = Presentation::style(underscore, 'light_yellow')
+    puts "\nWord: #{underscore_style}\n\n"
+  end
+
+  def shift_left 
+    @turns = word.size 
+  end
+
+  def type_letter
+    puts @player.enter_letter
+  end
+
+  def remaining_turns 
+    subtracting_turn = shift_left - 1 
+    puts "Remaining turns: #{subtracting_turn}"
   end
 
   def winner
@@ -59,13 +68,13 @@ class Game
     puts thanks_style
   end
 
-  def exit_ 
-    _exit = Presentation::show_phrase('exit')
-    puts _exit 
-  end
-
   def play 
-    
+    title 
+    game_info 
+    show_underscores
+    remaining_turns
+    type_letter 
+
   end
 end
 
@@ -73,8 +82,4 @@ word = SecretWord.new.select_word
 player = Player.new
 game = Game.new(word, player)
 
-game.title 
-game.game_info 
-game.exit_
-game.show_underscores
-game.thanks
+game.play 
