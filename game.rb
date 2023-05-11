@@ -44,12 +44,19 @@ class Game
   end
 
   def type_letter
-    puts @player.enter_letter
+    @player.enter_letter
   end
 
   def remaining_turns 
     subtracting_turn = shift_left - 1 
     puts "Remaining turns: #{subtracting_turn}"
+  end
+
+  def match_letter!
+    puts word 
+    if word.include?(type_letter)
+      puts 'Correct...'
+    end
   end
 
   def winner
@@ -74,6 +81,7 @@ class Game
     show_underscores
     remaining_turns
     type_letter 
+    match_letter!
 
   end
 end
