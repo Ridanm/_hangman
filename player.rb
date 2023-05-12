@@ -13,6 +13,9 @@ class Player
     letter = gets.chomp.downcase 
     if letter == 'exit'
       leave_game(letter)
+    elsif letter == 'save'
+      puts 'Slavando el juego en: '
+      enter_letter
     elsif letter.between?('a', 'z')
         letter[0]
     else 
@@ -23,7 +26,7 @@ class Player
 
   def leave_game(close='')
     bye = Presentation::show_phrase('thanks')
-    puts Presentation::style(bye, 'light_green')
+    puts Presentation::style(bye, 'light_blue')
     exit if close == 'exit'
   end
 
