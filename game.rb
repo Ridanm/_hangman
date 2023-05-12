@@ -87,9 +87,7 @@ class Game
       puts "\nWord: #{Presentation::style(copy_, 'light_yellow')}"
       wrong_letter_selected
       if winner? 
-        winner = Presentation::show_phrase('winner')
-        puts "\n#{Presentation::style(winner, 'light_blue')}" 
-        the_word_was
+        won_msj
       end
       loose if @turns == 0
     end
@@ -99,20 +97,25 @@ class Game
     @copy_underscore.join('') == word 
   end
 
+  def won_msj 
+    the_word_was
+    winner = Presentation::show_phrase('winner')
+    puts "\n#{Presentation::style(winner, 'light_green')}" 
+  end
+
   def loose 
+    the_word_was
     loose = Presentation::show_phrase('loose')
     puts "\n#{Presentation::style(loose, 'light_red')}" 
-    the_word_was
   end
 
   def the_word_was 
-    puts "The word was: #{Presentation::style(word, 'light_yellow')}"
+    puts "\nThe word was: #{Presentation::style(word.capitalize, 'light_yellow')}"
   end
 
   def thanks
     thanks = Presentation::show_phrase('thanks')
-    thanks_style = Presentation::style(thanks, 'light_green')
-    puts thanks_style
+    puts Presentation::style(thanks, 'green')
     exit 
   end
 
@@ -137,6 +140,10 @@ class Game
         result = true 
       end
     end
+  end
+
+  def save_game
+    
   end
 
 end
