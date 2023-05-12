@@ -10,8 +10,8 @@ module Presentation
       'save' => 'If you want to save the game before exiting type: save',
       'enter_char' => 'Enter a char from a to z: ',
       'warning' => 'Enter only characters from a to z',
-      'winner' => 'Congratulations you guessed the word',
-      'loose' => "The word hasn't been guessing do you want try again type: yes",
+      'winner' => 'Congratulations you guessed the word... if you want play again write: yes',
+      'loose' => "The word hasn't been guessing do you want try again write: yes",
       'exit' => 'If you have leave the game in any time write: exit',
       'thanks' => "\nThanks for playing...\nFor improvements in the game or bugs contact: danyfox1.dm@gmail.com"
     }[string]
