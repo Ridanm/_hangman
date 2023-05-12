@@ -3,6 +3,7 @@ require './secret_word.rb'
 require './player.rb'
 
 class Game 
+
   include Presentation
 
   attr_reader :word 
@@ -10,9 +11,9 @@ class Game
   def initialize(word, player)
     @word = word 
     @player = player 
-    @@copy_underscore = []
-    @loose_letter = []
-    @turns = 0
+    @copy_underscore = ['_'] * word.size 
+    @wrong_letter = []
+    @turns = word.size 
   end
 
   def title
@@ -28,11 +29,11 @@ class Game
     save = Presentation::show_phrase('save')
     _exit = Presentation::show_phrase('exit')
     turn = Presentation::show_phrase('turns')
-    puts "\n#{guess}\n#{only_first}\n#{save}\n#{_exit}\n#{turn}#{shift_left}"
+    puts "\n#{guess}\n#{only_first}\n#{save}\n#{_exit}\n#{turn}#{@turns}"
   end
 
   def underscores
-    @underscore = ['_'] * word.size
+    @copy_underscore
   end
 
   def show_underscores
@@ -41,66 +42,103 @@ class Game
     puts "\nWord: #{underscore_style}\n\n"
   end
 
-  def shift_left 
-    @turns = word.size 
-  end
-
   def type_letter
     @player.enter_letter
   end
 
   def remaining_turns 
-    subtracting_turn = shift_left - 1 
-    puts "Remaining turns: #{subtracting_turn}"
+    turn_left = "Remaining turns: "
+    if @turns > 2
+      print "#{Presentation::style(turn_left, 'light_yellow')}"
+      puts  "#{Presentation::style(@turns.to_s, 'light_green')}"
+    else 
+      print "#{Presentation::style(turn_left, 'light_red')}"
+      puts  "#{Presentation::style(@turns.to_s, 'light_yellow')}"
+    end
+  end
+
+  def wrong_letter_selected
+    wrong = "Wrong letter selected: "
+    selected_letters = "#{@wrong_letter.map(&:upcase).join(', ')}"
+    print Presentation::style(wrong, 'light_green')
+    puts Presentation::style(selected_letters, 'light_yellow')
   end
 
   def match_letter!
     puts word 
-    letter = type_letter 
-    @copy_underscore = underscores 
-    if word.include?(letter)
-      word.chars.each_with_index do |ch, ind|
-        if ch == letter 
-          @copy_underscore[ind] = ch 
-        end 
-      end
-    else 
-      puts "Nop yet "
-      if @loose_letter.include?(letter)
-        puts @loose_letter
+    while @turns > 0 && underscores.include?('_')
+      remaining_turns
+      letter = type_letter 
+      if word.include?(letter)
+        word.chars.each_with_index do |ch, ind|
+          if ch == letter 
+            @copy_underscore[ind] = ch 
+          end 
+        end
       else 
-        @loose_letter << letter 
-        puts @loose_letter
+        if @wrong_letter.include?(letter)
+          wrong_letter_selected
+        else 
+          @wrong_letter << letter 
+        end
+        @turns -= 1
       end
+      copy_ = @copy_underscore.join(' ')
+      puts "\nWord: #{Presentation::style(copy_, 'light_yellow')}"
+      wrong_letter_selected
+      if winner? 
+        winner = Presentation::show_phrase('winner')
+        puts "\n#{Presentation::style(winner, 'light_blue')}" 
+        the_word_was
+      end
+      loose if @turns == 0
     end
-    copy_ = @copy_underscore.join(' ')
-    puts Presentation::style(copy_, 'light_yellow')
   end
 
-  def winner
-    winner = Presentation::show_phrase('winner')
-    puts winner 
+  def winner?
+    @copy_underscore.join('') == word 
   end
 
   def loose 
     loose = Presentation::show_phrase('loose')
-    puts loose 
+    puts "\n#{Presentation::style(loose, 'light_red')}" 
+    the_word_was
+  end
+
+  def the_word_was 
+    puts "The word was: #{Presentation::style(word, 'light_yellow')}"
   end
 
   def thanks
     thanks = Presentation::show_phrase('thanks')
     thanks_style = Presentation::style(thanks, 'light_green')
     puts thanks_style
+    exit 
   end
 
   def play 
     title 
     game_info 
     underscores
-    remaining_turns
     show_underscores
     match_letter!
+    play_again
   end
+
+  def play_again 
+    result = false 
+    until result 
+      type = gets.chomp
+      if type == 'yes'
+        Game.new(SecretWord.new.select_word , Player.new).play 
+        result = false 
+      else 
+        thanks
+        result = true 
+      end
+    end
+  end
+
 end
 
 word = SecretWord.new.select_word 
@@ -108,3 +146,5 @@ player = Player.new
 game = Game.new(word, player)
 
 game.play 
+puts game.winner? 
+
