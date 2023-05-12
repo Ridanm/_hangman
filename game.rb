@@ -115,7 +115,7 @@ class Game
 
   def thanks
     thanks = Presentation::show_phrase('thanks')
-    puts Presentation::style(thanks, 'green')
+    puts Presentation::style(thanks, 'light_blue')
     exit 
   end
 
