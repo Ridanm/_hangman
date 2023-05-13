@@ -23,29 +23,35 @@ module Save
     save.close 
   end
 
-  def unserialize(file_name)
+  def self.unserialize(file_name)
     file_name = file_name.prepend('./')
     location = File.open(file_name)
     unserial = YAML::load(location)
   end
 
-  def show_files 
-    all_files = Dir['./*'].select { |path| path if path.include?('.yaml')}
+  def self.show_files(index_file) 
+    all_files = Dir['./save_progress/*'].select { |path| path if path.include?('.yaml')}
     if all_files.size == 0 
       puts Presentation::save_phrase('no_progress')
+      exit 
     else 
-      puts all_files 
+      all_files.each do |dir| 
+        index_file += 1
+        clear = dir.gsub(/\.\/save_progress\//,'')
+        clear_all = clear.gsub(/\.yaml/, '')
+        puts "#{index_file} #{clear_all}"
+      end
     end
   end
 
-  def recorver_file(all_files) 
+  def self.recorver_file(all_files) 
     print Presentation::show_phrase('enter_corresponding_number')
     num = gets.chomp.to_i 
     num -= 1
     select_saved_file(all_files, num)
   end
 
-  def select_saved_file(all_files, num)
+  def self.select_saved_file(all_files, num)
     puts all_files[num] 
   end
 
@@ -63,6 +69,12 @@ module Save
 
 end
 
-puts "Guardando objeto en archivo yaml"
-guardar = Save.run_serialize(prueba)
+puts "Obteniendo objeto de archivo yaml"
+# guardar = Save.run_serialize(prueba)
+num = 0
+obj = Save.show_files(num)
+
+
+
+
  
