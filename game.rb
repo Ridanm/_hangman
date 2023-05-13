@@ -1,10 +1,12 @@
 require './presentation_module'
 require './secret_word.rb'
 require './player.rb'
+require './save_module.rb'
 
 class Game 
 
   include Presentation
+  include Save 
 
   attr_reader :word 
 
