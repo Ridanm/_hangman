@@ -13,6 +13,7 @@ module Presentation
       'winner' => "Congratulations you guessed the word...\nif you want try again write: yes ",
       'loose' => "The word hasn't been guessing... \nif you want play again write: yes or any key to leave the game.",
       'exit' => 'If you have leave the game in any time write: exit',
+      'save_name' => "Enter the name you want to save this game with.",
       'thanks' => "\nThanks for playing...\nFor improvements in the game or bugs contact: danyfox1.dm@gmail.com"
     }[string]
   end
