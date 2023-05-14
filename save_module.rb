@@ -37,9 +37,9 @@ module Save
     else 
       all_files.each do |dir| 
         index_file += 1
-        clear = dir.gsub(/\.\/save_progress\//,'')
+        clear = dir.gsub(/\.\/save_progress\/+(\.){1}(yaml){1}$/,'')
         clear_all = clear.gsub(/\.yaml/, '')
-        puts "#{index_file} #{clear_all}"
+        puts "#{index_file} #{clear}"
       end
     end
   end
@@ -70,7 +70,8 @@ module Save
 end
 
 puts "Obteniendo objeto de archivo yaml"
-# guardar = Save.run_serialize(prueba)
+
+#guardar = Save.run_serialize(prueba)
 num = 0
 obj = Save.show_files(num)
 
