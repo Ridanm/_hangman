@@ -19,9 +19,10 @@ module Presentation
 
   def self.save_phrase(string)
     {
+      'show_saved_files' => "\nThese are the saved files of pregress in previous games.",
       'save_name' => "\nEnter the name you want to save this game with: ",
       'enter_corresponding_number' => "\nEnter only the number of corresponding file you want to continue: ",
-      'no_progress' => "\nThere is no saved progress to display."
+      'no_progress' => "\nThere is no save game to display."
     }[string]
   end
 
