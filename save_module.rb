@@ -26,7 +26,6 @@ module Save
   end
 
   def self.unserialize(file_name)
-    file_name = file_name.prepend('./')
     location = File.open(file_name)
     unserial = YAML::load(location)
   end
@@ -35,9 +34,10 @@ module Save
     @dir_files = Array.new
     all_files = Dir['./save_progress/*'].select { |path| path if path.include?('.yaml')}
     if all_files.size == 0 
-      puts Presentation::save_phrase('no_progress')
+      puts Presentation::save_phrase("no_progress")
       exit 
     else 
+      puts Presentation::save_phrase("show_saved_files")
       all_files.each_with_index do |dir, index_file| 
         @dir_files << dir 
         index_file += 1
@@ -56,7 +56,7 @@ module Save
   end
 
   def self.select_saved_file(all_files, num)
-    puts all_files[num] 
+    return all_files[num] 
   end
 
   def self.run_serialize(object_name)
@@ -68,15 +68,11 @@ module Save
   def self.run_unserialize 
     show = show_files()
     recover = recorver_file(@dir_files)
-    puts recover 
-    #unserialize(recover)
+    unserialize(recover)
   end
 
 end
 
 puts "Obteniendo objeto de archivo yaml"
-
-#guardar = Save.run_serialize(prueba)
 obj = Save.run_unserialize
-#recover = Save.recorver_file(Save.@dir_files)
-
+puts obj 
