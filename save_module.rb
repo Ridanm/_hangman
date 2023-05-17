@@ -2,20 +2,6 @@
 require 'yaml'
 require './presentation_module.rb'
 
-class Prueba 
-  def initialize(name)
-    @name = name 
-  end
-
-  def game 
-    "Welcome to Prueba class #{@name}"
-  end
-
-end
-prueba = Prueba.new("Richard")
-guarda = prueba.game
-
-
 module Save 
   include Presentation
 
@@ -84,8 +70,3 @@ module Save
   end
 
 end
-
-puts "Obteniendo objeto de archivo yaml"
-# save = Save.run_serialize(guarda)
-obj = Save::run_unserialize
-puts obj 
