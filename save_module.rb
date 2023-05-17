@@ -68,5 +68,4 @@ module Save
     recover = recorver_file(@dir_files)
     unserialize(recover)
   end
-
 end
