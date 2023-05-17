@@ -8,13 +8,13 @@ class Game
   include Presentation
   include Save 
 
-  attr_reader :word 
+  attr_reader :word, :wrong_letter
 
   def initialize(word, player)
     @word = word 
     @player = player 
     @copy_underscore = ['_'] * word.size 
-    @wrong_letter = []
+    @wrong_letter = Array.new 
     @turns = word.size 
   end
 
@@ -87,7 +87,7 @@ class Game
       end
       copy_ = @copy_underscore.join(' ')
       puts "\nWord: #{Presentation::style(copy_, 'light_yellow')}"
-      wrong_letter_selected
+      wrong_letter_selected if !wrong_letter.nil? && !wrong_letter.empty?
       if winner? 
         won_msj
       end
@@ -145,7 +145,13 @@ class Game
   end
 
   def save_game
-    
+    # si desea guardar el juego serializar 
+    # serialize(nombre_del_archivo_a_guardar, objeto a guardar)
+    # luego dejar el juego 
+  end
+
+  def load_game
+    # cargar archivo guardado para continuar el juego
   end
 
 end
@@ -155,5 +161,4 @@ player = Player.new
 game = Game.new(word, player)
 
 game.play 
-puts game.winner? 
 
