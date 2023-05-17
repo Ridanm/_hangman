@@ -6,17 +6,23 @@ class Prueba
   def initialize(name)
     @name = name 
   end
+
+  def game 
+    "Welcome to Prueba class #{@name}"
+  end
+
 end
 prueba = Prueba.new("Richard")
-
+guarda = prueba.game
 
 
 module Save 
+  include Presentation
 
   def self.enter_file_name_save
     print Presentation::save_phrase('save_name')
     file_name = gets.chomp.to_s 
-    file_name.strip.gsub(/\s/, '_')
+    file_name.strip.gsub(/\s+/, '_')
   end
 
   def self.serialize(file_name_save, object_to_save)
@@ -32,15 +38,18 @@ module Save
 
   def self.show_files
     @dir_files = Array.new
+    @validate_numbers = Array.new 
     all_files = Dir['./save_progress/*'].select { |path| path if path.include?('.yaml')}
     if all_files.size == 0 
       puts Presentation::save_phrase("no_progress")
       exit 
     else 
-      puts Presentation::save_phrase("show_saved_files")
+      saved_files = Presentation::save_phrase("show_saved_files")
+      puts Presentation::style(saved_files, 'green')
       all_files.each_with_index do |dir, index_file| 
         @dir_files << dir 
         index_file += 1
+        @validate_numbers << index_file
         clear = dir.gsub(/\.\/save_progress\//,'')
         clear_all = clear.gsub(/\.yaml/, '')
         puts "#{index_file} #{clear_all}"
@@ -50,9 +59,12 @@ module Save
 
   def self.recorver_file(all_files) 
     print Presentation::save_phrase('enter_corresponding_number')
-    num = gets.chomp.to_i 
-    num -= 1
-    select_saved_file(all_files, num)
+    enter_number = gets.chomp.to_i 
+    num = enter_number - 1
+    return select_saved_file(all_files, num) if @validate_numbers.include?(enter_number)
+    text = Presentation::save_phrase('warning')
+    puts Presentation::style(text, 'light_red')
+    Save::recorver_file(all_files)
   end
 
   def self.select_saved_file(all_files, num)
@@ -74,5 +86,6 @@ module Save
 end
 
 puts "Obteniendo objeto de archivo yaml"
-obj = Save.run_unserialize
+# save = Save.run_serialize(guarda)
+obj = Save::run_unserialize
 puts obj 
