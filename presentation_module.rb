@@ -22,6 +22,7 @@ module Presentation
       'show_saved_files' => "\nThese are the saved files of pregress in previous games.",
       'save_name' => "\nEnter the name you want to save this game with: ",
       'enter_corresponding_number' => "\nEnter only the number of corresponding file you want to continue: ",
+      'warning' => "\nThat number is not in the save files.",
       'no_progress' => "\nThere is no save game to display."
     }[string]
   end
