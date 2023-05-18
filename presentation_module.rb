@@ -4,6 +4,7 @@ module Presentation
   def self.show_phrase(string)
     {
       'title' => 'Welcome to the Hangman game',
+      'beginning' => "\nFor a new game type 1 \nTo load a saved game type 2",
       'guess' => 'Guess the word each underscore represents a letter.',
       'only_first' => 'If you enter more than one letter, only the first will be valid.',
       'turns' => 'It depend on the word are the turns you have to guess, in this case: ',
@@ -20,7 +21,7 @@ module Presentation
   def self.save_phrase(string)
     {
       'show_saved_files' => "\nThese are the saved files of pregress in previous games.",
-      'save_name' => "\nEnter the name you want to save this game with: ",
+      'save_name' => "Enter the name you want to save this game with: ",
       'enter_corresponding_number' => "\nEnter only the number of corresponding file you want to continue: ",
       'warning' => "\nThat number is not in the save files.",
       'no_progress' => "\nThere is no save game to display."
