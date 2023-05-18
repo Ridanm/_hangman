@@ -1,4 +1,4 @@
-require './presentation_module.rb'
+# require './save_module.rb'
 
 class Player 
   attr_reader :letter 
@@ -13,9 +13,8 @@ class Player
     letter = gets.chomp.downcase 
     if letter == 'exit'
       leave_game(letter)
-    elsif letter == 'save'
-      puts 'Slavando el juego en: '
-      enter_letter
+    elsif letter == 'save' 
+      return 'save'
     elsif letter.between?('a', 'z')
         letter[0]
     else 
@@ -35,6 +34,7 @@ class Player
     warning_style = Presentation::style(warning, 'light_red')
     puts "#{warning_style}\n\n"
   end
+
 end
 
 
