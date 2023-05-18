@@ -6,7 +6,8 @@ module Save
   include Presentation
 
   def self.enter_file_name_save
-    print Presentation::save_phrase('save_name')
+    _print = Presentation::save_phrase('save_name')
+    print Presentation::style(_print, 'light_green')
     file_name = gets.chomp.to_s 
     file_name.strip.gsub(/\s+/, '_')
   end
@@ -44,7 +45,8 @@ module Save
   end
 
   def self.recorver_file(all_files) 
-    print Presentation::save_phrase('enter_corresponding_number')
+    corresponding = Presentation::save_phrase('enter_corresponding_number')
+    print Presentation::style(corresponding, 'green')
     enter_number = gets.chomp.to_i 
     num = enter_number - 1
     return select_saved_file(all_files, num) if @validate_numbers.include?(enter_number)
@@ -60,7 +62,7 @@ module Save
   def self.run_serialize(object_name)
     yaml_name = enter_file_name_save
     serialize(yaml_name, object_name)
-    puts "Saved progress"
+    puts Presentation::style("Saved Game...", 'light_green')
   end
 
   def self.run_unserialize 
