@@ -1,14 +1,14 @@
-require './presentation_module'
 require './secret_word.rb'
-require './player.rb'
+require './presentation_module'
 require './save_module.rb'
+require './player.rb'
 
 class Game 
 
   include Presentation
   include Save 
 
-  attr_reader :word, :wrong_letter
+  attr_reader :word, :wrong_letter, :player
 
   def initialize(word, player)
     @word = word 
@@ -16,6 +16,7 @@ class Game
     @copy_underscore = ['_'] * word.size 
     @wrong_letter = Array.new 
     @turns = word.size 
+    @save_objects = Array.new 
   end
 
   def title
@@ -70,8 +71,12 @@ class Game
     puts word 
     while @turns > 0 && underscores.include?('_')
       remaining_turns
-      letter = type_letter 
-      if word.include?(letter)
+      letter = type_letter
+      if letter == 'save'
+        puts Presentation::style("SAVING THE GAME", 'light_green')
+        Save::run_serialize(@save_objects << self)
+        player.leave_game('exit')
+      elsif word.include?(letter)
         word.chars.each_with_index do |ch, ind|
           if ch == letter 
             @copy_underscore[ind] = ch 
@@ -122,7 +127,6 @@ class Game
   end
 
   def play 
-    title 
     game_info 
     underscores
     show_underscores
@@ -144,14 +148,17 @@ class Game
     end
   end
 
-  def save_game
-    # si desea guardar el juego serializar 
-    # serialize(nombre_del_archivo_a_guardar, objeto a guardar)
-    # luego dejar el juego 
-  end
-
-  def load_game
-    # cargar archivo guardado para continuar el juego
+  def beginning
+    before = Presentation::show_phrase('beginning')
+    puts Presentation::style(before, 'light_green')
+    print 'Enter number: '
+    start_num = gets.chomp 
+    beginning if !start_num.match(/[1-2]/)
+    if start_num == '1' 
+      play 
+    elsif start_num == '2'
+      Save::run_unserialize
+    end
   end
 
 end
@@ -160,5 +167,7 @@ word = SecretWord.new.select_word
 player = Player.new
 game = Game.new(word, player)
 
-game.play 
+game.title 
+game.beginning 
+
 
