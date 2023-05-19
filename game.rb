@@ -158,7 +158,7 @@ class Game
       play 
     elsif start_num == '2'
       puts "Progress implement this"
-      p Save::run_unserialize[0].word, Save::run_unserialize[0].copy_underscore
+      p Save::run_unserialize.first.copy_underscore
     end
   end
 
