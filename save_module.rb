@@ -13,14 +13,16 @@ module Save
   end
 
   def self.serialize(file_name_save, object_to_save)
-    save = File.new(file_name_save.prepend('./save_progress/') + '.yaml', 'w')
-    save.write(YAML::dump(object_to_save))
-    save.close 
+    File::open(file_name_save.prepend('./save_progress/') + '.yaml', 'w+') do |fs|
+      YAML::dump(object_to_save, fs)
+    end
   end
 
   def self.unserialize(file_name)
-    location = File.open(file_name)
-    unserial = YAML::load(location)
+    File::open(file_name) do |sf|
+      @result = YAML::load(sf)
+    end
+    return @result 
   end
 
   def self.show_files
@@ -32,7 +34,7 @@ module Save
       exit 
     else 
       saved_files = Presentation::save_phrase("show_saved_files")
-      puts Presentation::style(saved_files, 'green')
+      puts Presentation::style(saved_files, 'light_green')
       all_files.each_with_index do |dir, index_file| 
         @dir_files << dir 
         index_file += 1
@@ -46,7 +48,7 @@ module Save
 
   def self.recorver_file(all_files) 
     corresponding = Presentation::save_phrase('enter_corresponding_number')
-    print Presentation::style(corresponding, 'green')
+    print Presentation::style(corresponding, 'light_green')
     enter_number = gets.chomp.to_i 
     num = enter_number - 1
     return select_saved_file(all_files, num) if @validate_numbers.include?(enter_number)

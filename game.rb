@@ -8,7 +8,7 @@ class Game
   include Presentation
   include Save 
 
-  attr_reader :word, :wrong_letter, :player
+  attr_accessor :word, :player, :copy_underscore, :wrong_letter, :turns
 
   def initialize(word, player)
     @word = word 
@@ -157,7 +157,8 @@ class Game
     if start_num == '1' 
       play 
     elsif start_num == '2'
-      Save::run_unserialize
+      puts "Progress implement this"
+      p Save::run_unserialize[0].word, Save::run_unserialize[0].copy_underscore
     end
   end
 
