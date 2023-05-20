@@ -1,7 +1,7 @@
 require 'colorize'
 
 class SecretWord 
-  attr_accessor 
+  attr_accessor :arr_words
 
   def initialize 
     @arr_words = []
