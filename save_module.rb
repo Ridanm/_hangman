@@ -20,9 +20,8 @@ module Save
 
   def self.unserialize(file_name)
     File::open(file_name) do |sf|
-      @result = YAML::load(sf)
+      YAML::load(sf)
     end
-    return @result 
   end
 
   def self.show_files
