@@ -16,7 +16,6 @@ class Game
     @copy_underscore = ['_'] * word.size 
     @wrong_letter = Array.new 
     @turns = word.size 
-    @save_objects = Array.new 
   end
 
   def title
@@ -74,7 +73,7 @@ class Game
       letter = type_letter
       if letter == 'save'
         puts Presentation::style("SAVING THE GAME", 'light_green')
-        Save::run_serialize(@save_objects << self)
+        Save::run_serialize(self)
         player.leave_game('exit')
       elsif word.include?(letter)
         word.chars.each_with_index do |ch, ind|
@@ -158,11 +157,18 @@ class Game
       play 
     elsif start_num == '2'
       puts "Progress implement this"
-      @recharge = Save::run_unserialize
-      p @recharge.first.word
+      @reload = Save::run_unserialize
+
+# IMPLEMENT THIS 
+      p @reload 
+      p @reload.word
+      p @reload.copy_underscore
+      p @reload.wrong_letter
+      p @reload.turns 
+
+
     end
   end
-
 end
 
 word = SecretWord.new.select_word 

@@ -20,7 +20,7 @@ module Save
 
   def self.unserialize(file_name)
     File::open(file_name) do |sf|
-      YAML::load(sf)
+      YAML::load(sf, symbolize_names: true)
     end
   end
 
