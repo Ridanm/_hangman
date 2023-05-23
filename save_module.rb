@@ -29,8 +29,10 @@ module Save
     @validate_numbers = Array.new 
     all_files = Dir['./save_progress/*'].select { |path| path if path.include?('.yaml')}
     if all_files.size == 0 
-      puts Presentation::save_phrase("no_progress")
-      exit 
+      no_progress = Presentation::save_phrase("no_progress")
+      puts Presentation::style(no_progress, 'light_yellow')
+      puts Presentation::style("Reload game", 'light_yellow')
+      exit(1)
     else 
       saved_files = Presentation::save_phrase("show_saved_files")
       puts Presentation::style(saved_files, 'light_green')
