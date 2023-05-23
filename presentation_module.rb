@@ -4,11 +4,12 @@ module Presentation
   def self.show_phrase(string)
     {
       'title' => 'Welcome to the Hangman game',
-      'beginning' => "\nFor a new game type 1 \nTo load a saved game type 2",
+      'try_again' => 'Try again new game',
+      'beginning' => "\nFor a new game type  1 \nTo load a saved game 2",
       'guess' => 'Guess the word each underscore represents a letter.',
       'only_first' => 'If you enter more than one letter, only the first will be valid.',
       'turns' => 'It depend on the word are the turns you have to guess, in this case: ',
-      'save' => 'If you want to save the game before exiting type: save',
+      'save' => "Save the game type: save \nCan you exit or continue playing after saving.",
       'enter_char' => 'Enter a char from a to z: ',
       'warning' => 'Enter only characters from a to z',
       'winner' => "Congratulations you guessed the word...\nif you want try again write: yes ",
