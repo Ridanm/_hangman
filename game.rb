@@ -1,8 +1,3 @@
-require './secret_word.rb'
-require './presentation_module'
-require './save_module.rb'
-require './player.rb'
-
 class Game 
 
   include Presentation
@@ -67,7 +62,7 @@ class Game
   end
 
   def match_letter!
-    puts word 
+    # puts word 
     while @turns > 0 && underscores.include?('_')
       remaining_turns
       letter = type_letter
@@ -110,13 +105,13 @@ class Game
   end
 
   def won_msj 
-    the_word_was
+    the_word_was()
     winner = Presentation::show_phrase('winner')
     puts "\n#{Presentation::style(winner, 'light_green')}" 
   end
 
   def loose 
-    the_word_was
+    the_word_was()
     loose = Presentation::show_phrase('loose')
     puts "\n#{Presentation::style(loose, 'light_red')}" 
   end
@@ -132,11 +127,26 @@ class Game
   end
 
   def play 
-    game_info 
-    underscores
-    show_underscores
-    match_letter!
-    play_again
+    game_info() 
+    underscores()
+    show_underscores()
+    match_letter!()
+    play_again()
+  end
+
+  def try_again 
+    another_time = Presentation::show_phrase('try_again')
+    long = another_time.size 
+    another_time_style = Presentation::style(another_time, 'light_cyan')
+    puts "\n#{another_time_style.center(long*2)}"
+  end
+
+  def play_no_info
+    try_again()
+    underscores()
+    show_underscores()
+    match_letter!()
+    play_again()
   end
 
   def play_again 
@@ -144,7 +154,7 @@ class Game
     until result 
       type = gets.chomp.downcase
       if type == 'yes'
-        Game.new(SecretWord.new.select_word , Player.new).play 
+        Game.new(SecretWord.new.select_word , Player.new).play_no_info 
         result = false 
       else 
         thanks
@@ -154,39 +164,38 @@ class Game
   end
 
   def beginning
+    title()
     before = Presentation::show_phrase('beginning')
-    puts Presentation::style(before, 'blue')
+    puts Presentation::style(before, 'light_cyan')
     print 'Enter number: '
     start_num = gets.chomp 
     beginning if !start_num.match(/[1-2]/)
     if start_num == '1' 
-      play 
+      play()
     elsif start_num == '2'
-      puts "Progress implement this"
-      @reload = Save::run_unserialize
-
-# IMPLEMENT THIS 
-      word = @reload.word 
-      recharge = Game.new(word, Player.new)
-      recharge.turns = @reload.turns 
-      recharge.copy_underscore = @reload.copy_underscore
-      recharge.wrong_letter = @reload.wrong_letter
-      recharge # Implement reload_game method 
-    
-
+      reload_saved_game()
     end
   end
 
-  def reload 
+  def reload_saved_game
+    @reload = Save::run_unserialize
+    word = @reload.word 
+    recharge = Game.new(word, Player.new)
+    recharge.turns = @reload.turns 
+    recharge.copy_underscore = @reload.copy_underscore
+    recharge.wrong_letter = @reload.wrong_letter
+    recharge.reload_play
+  end
 
+  def reload_play 
+    puts "\n#{Presentation::style('Saved game loaded...', 'light_cyan')}"
+    underscores()
+    show_underscores()
+    match_letter!()
+    play_again()
   end
 end
 
-word = SecretWord.new.select_word 
-player = Player.new
-game = Game.new(word, player)
 
-game.title 
-game.beginning 
 
 
