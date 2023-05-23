@@ -9,7 +9,7 @@ class Player
   end
 
   def enter_letter
-    type_char 
+    type_char() 
     letter = gets.chomp.downcase 
     if letter == 'exit'
       leave_game(letter)
@@ -18,8 +18,8 @@ class Player
     elsif letter.between?('a', 'z')
         letter[0]
     else 
-      warning_message
-      enter_letter 
+      warning_message()
+      enter_letter()
     end 
   end
 
