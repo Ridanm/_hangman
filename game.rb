@@ -74,7 +74,13 @@ class Game
       if letter == 'save'
         puts Presentation::style("SAVING THE GAME", 'light_green')
         Save::run_serialize(self)
-        player.leave_game('exit')
+        puts "CONTINUE type: yes or leave the game any key"
+        continue = gets.chomp.downcase 
+        if continue == 'yes'
+          next
+        else
+          player.leave_game('exit')
+        end
       elsif word.include?(letter)
         word.chars.each_with_index do |ch, ind|
           if ch == letter 
@@ -136,7 +142,7 @@ class Game
   def play_again 
     result = false 
     until result 
-      type = gets.chomp
+      type = gets.chomp.downcase
       if type == 'yes'
         Game.new(SecretWord.new.select_word , Player.new).play 
         result = false 
@@ -149,7 +155,7 @@ class Game
 
   def beginning
     before = Presentation::show_phrase('beginning')
-    puts Presentation::style(before, 'light_green')
+    puts Presentation::style(before, 'blue')
     print 'Enter number: '
     start_num = gets.chomp 
     beginning if !start_num.match(/[1-2]/)
@@ -160,14 +166,19 @@ class Game
       @reload = Save::run_unserialize
 
 # IMPLEMENT THIS 
-      p @reload 
-      p @reload.word
-      p @reload.copy_underscore
-      p @reload.wrong_letter
-      p @reload.turns 
-
+      word = @reload.word 
+      recharge = Game.new(word, Player.new)
+      recharge.turns = @reload.turns 
+      recharge.copy_underscore = @reload.copy_underscore
+      recharge.wrong_letter = @reload.wrong_letter
+      recharge # Implement reload_game method 
+    
 
     end
+  end
+
+  def reload 
+
   end
 end
 
