@@ -36,7 +36,7 @@ class Game
   def show_underscores
     underscore = underscores.join(' ')
     underscore_style = Presentation::style(underscore, 'light_yellow')
-    puts "\nWord: #{underscore_style}\n\n"
+    puts "\nWord: #{underscore_style}"
   end
 
   def type_letter
@@ -44,7 +44,7 @@ class Game
   end
 
   def remaining_turns 
-    turn_left = "Remaining turns: "
+    turn_left = "\nRemaining turns: "
     if @turns > 2
       print "#{Presentation::style(turn_left, 'light_yellow')}"
       puts  "#{Presentation::style(@turns.to_s, 'light_green')}"
@@ -69,7 +69,7 @@ class Game
       if letter == 'save'
         puts Presentation::style("SAVING THE GAME", 'light_green')
         Save::run_serialize(self)
-        puts "CONTINUE type: yes or leave the game any key"
+        print "Continue type: yes or leave the game any key: "
         continue = gets.chomp.downcase 
         if continue == 'yes'
           next
